@@ -6,11 +6,40 @@ import { ListPedidosComponent } from './features/pedidos/list-pedidos/list-pedid
 import { RelatoriosComponent } from './features/relatorios/relatorios.component';
 
 export const routes: Routes = [
+  // Dashboard
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'vendedores', component: ListVendedoresComponent },
-  { path: 'clientes', component: ListClientesComponent },
-  { path: 'pedidos', component: ListPedidosComponent },
+
+  // Clientes
+  {
+    path: 'clientes',
+    children: [
+      { path: 'listagem', component: ListClientesComponent }, // Listagem de Clientes
+      { path: 'criacao', component: ListClientesComponent },  // Substituir por componente de criação
+    ],
+  },
+
+  // Vendedores
+  {
+    path: 'vendedores',
+    children: [
+      { path: 'listagem', component: ListVendedoresComponent }, // Listagem de Vendedores
+      { path: 'criacao', component: ListVendedoresComponent },  // Substituir por componente de criação
+    ],
+  },
+
+  // Pedidos
+  {
+    path: 'pedidos',
+    children: [
+      { path: 'listagem', component: ListPedidosComponent }, // Listagem de Pedidos
+      { path: 'criacao', component: ListPedidosComponent },  // Substituir por componente de criação
+    ],
+  },
+
+  // Relatórios
   { path: 'relatorios', component: RelatoriosComponent },
+
+  // Redirecionamento padrão
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // Redireciona para o Dashboard
   { path: '**', redirectTo: '/dashboard' }, // Redireciona páginas não encontradas para o Dashboard
 ];
