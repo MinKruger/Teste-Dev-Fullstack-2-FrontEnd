@@ -1,0 +1,82 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Listagem de Vendedores</strong>
+      </c-card-header>
+      <c-card-body>
+        <!-- Campo de Filtro -->
+        <mat-form-field class="filter-form-field">
+          <mat-label>Filtrar</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex: Nome do Vendedor"
+            #input
+          />
+        </mat-form-field>
+
+        <!-- Tabela -->
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- Coluna: ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let vendedor">{{ vendedor.id }}</td>
+            </ng-container>
+
+            <!-- Coluna: Nome -->
+            <ng-container matColumnDef="nome">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+              <td mat-cell *matCellDef="let vendedor">{{ vendedor.nome }}</td>
+            </ng-container>
+
+            <!-- Coluna: Código do Vendedor -->
+            <ng-container matColumnDef="codigoVendedor">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+              <td mat-cell *matCellDef="let vendedor">
+                {{ vendedor.codigoVendedor }}
+              </td>
+            </ng-container>
+
+            <!-- Coluna: Apelido -->
+            <ng-container matColumnDef="apelido">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Apelido</th>
+              <td mat-cell *matCellDef="let vendedor">
+                {{ vendedor.apelido }}
+              </td>
+            </ng-container>
+
+            <!-- Coluna: Ativo -->
+            <ng-container matColumnDef="ativo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
+              <td mat-cell *matCellDef="let vendedor">
+                {{ vendedor.ativo ? "Sim" : "Não" }}
+              </td>
+            </ng-container>
+
+            <!-- Header e Linhas -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let vendedor; columns: displayedColumns"
+            ></tr>
+
+            <!-- Linha: Sem Dados -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="5">
+                Nenhum dado encontrado para o filtro "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <!-- Paginação -->
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Selecione a página"
+          ></mat-paginator>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

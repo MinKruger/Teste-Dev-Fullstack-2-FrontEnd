@@ -1,0 +1,103 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Listagem de Pedidos</strong>
+      </c-card-header>
+      <c-card-body>
+        <!-- Campo de Filtro -->
+        <mat-form-field class="filter-form-field">
+          <mat-label>Filtrar</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex: Descrição do Pedido"
+            #input
+          />
+        </mat-form-field>
+
+        <!-- Tabela -->
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- Coluna: ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let pedido">{{ pedido.id }}</td>
+            </ng-container>
+
+            <!-- Coluna: Descrição do Pedido -->
+            <ng-container matColumnDef="descricaoPedido">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Descrição
+              </th>
+              <td mat-cell *matCellDef="let pedido">
+                {{ pedido.descricaoPedido }}
+              </td>
+            </ng-container>
+
+            <!-- Coluna: Valor Total -->
+            <ng-container matColumnDef="valorTotal">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Valor Total
+              </th>
+              <td mat-cell *matCellDef="let pedido">
+                {{ pedido.valorTotal | currencyFormat }}
+              </td>
+            </ng-container>
+
+            <!-- Coluna: Data de Criação -->
+            <ng-container matColumnDef="dataCriacao">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+              <td mat-cell *matCellDef="let pedido">
+                {{ pedido.dataCriacao | dateFormat }}
+              </td>
+            </ng-container>
+
+            <!-- Coluna: Autorizado -->
+            <ng-container matColumnDef="autorizado">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Autorizado
+              </th>
+              <td mat-cell *matCellDef="let pedido">
+                {{ pedido.autorizado ? "Sim" : "Não" }}
+              </td>
+            </ng-container>
+
+            <!-- Coluna: Cliente ID -->
+            <ng-container matColumnDef="clienteId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Cliente ID
+              </th>
+              <td mat-cell *matCellDef="let pedido">{{ pedido.clienteId }}</td>
+            </ng-container>
+
+            <!-- Coluna: Vendedor ID -->
+            <ng-container matColumnDef="vendedorId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Vendedor ID
+              </th>
+              <td mat-cell *matCellDef="let pedido">{{ pedido.vendedorId }}</td>
+            </ng-container>
+
+            <!-- Header e Linhas -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let pedido; columns: displayedColumns"></tr>
+
+            <!-- Linha: Sem Dados -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="7">
+                Nenhum dado encontrado para o filtro "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <!-- Paginação -->
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Selecione a página"
+          ></mat-paginator>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
