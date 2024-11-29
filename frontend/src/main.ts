@@ -12,6 +12,6 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes), // Configuração das rotas
     ...coreProviders, // Registrar os provedores globais do Core
     importProvidersFrom(BrowserAnimationsModule),
-    provideAnimationsAsync()
+    provideAnimationsAsync(), provideAnimationsAsync()
   ],
 }).catch((err) => console.error(err));
