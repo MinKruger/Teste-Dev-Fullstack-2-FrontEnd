@@ -10,10 +10,8 @@ import {
   GridModule,
   SidebarModule,
   SidebarBrandComponent,
-  SidebarFooterComponent,
   SidebarHeaderComponent,
   SidebarNavComponent,
-  SidebarToggleDirective,
 } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './shared/icons/icon-subset';
@@ -42,8 +40,6 @@ function isOverflown(element: HTMLElement) {
     RouterLink,
     SidebarModule,
     SidebarNavComponent,
-    SidebarFooterComponent,
-    SidebarToggleDirective,
     DefaultHeaderComponent,
     ContainerComponent,
     RouterOutlet,
