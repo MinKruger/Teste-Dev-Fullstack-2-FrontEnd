@@ -1,29 +1,75 @@
-<table cTable>
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Class</th>
-      <th scope="col">Heading</th>
-      <th scope="col">Heading</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>&#64;mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>&#64;fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colSpan="2">Larry the Bird</td>
-      <td>&#64;twitter</td>
-    </tr>
-    </tbody>
-  </table>
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Listagem de Clientes</strong>
+      </c-card-header>
+      <c-card-body>
+        <!-- Campo de Filtro -->
+        <mat-form-field class="filter-form-field">
+          <mat-label>Filtrar</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex: Razão Social"
+            #input
+          />
+        </mat-form-field>
+
+        <!-- Tabela -->
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- Coluna: ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let cliente">{{ cliente.id }}</td>
+            </ng-container>
+
+            <!-- Coluna: Razão Social -->
+            <ng-container matColumnDef="razaoSocial">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Razão Social</th>
+              <td mat-cell *matCellDef="let cliente">{{ cliente.razaoSocial }}</td>
+            </ng-container>
+
+            <!-- Coluna: Nome Fantasia -->
+            <ng-container matColumnDef="nomeFantasia">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome Fantasia</th>
+              <td mat-cell *matCellDef="let cliente">{{ cliente.nomeFantasia }}</td>
+            </ng-container>
+
+            <!-- Coluna: CNPJ -->
+            <ng-container matColumnDef="cnpj">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>CNPJ</th>
+              <td mat-cell *matCellDef="let cliente">{{ cliente.cnpj }}</td>
+            </ng-container>
+
+            <!-- Coluna: Ativo -->
+            <ng-container matColumnDef="ativo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
+              <td mat-cell *matCellDef="let cliente">
+                {{ cliente.ativo ? 'Sim' : 'Não' }}
+              </td>
+            </ng-container>
+
+            <!-- Header e Linhas -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let cliente; columns: displayedColumns"></tr>
+
+            <!-- Linha: Sem Dados -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="5">
+                Nenhum dado encontrado
+              </td>
+            </tr>
+          </table>
+
+          <!-- Paginação -->
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Selecione a página"
+          ></mat-paginator>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
