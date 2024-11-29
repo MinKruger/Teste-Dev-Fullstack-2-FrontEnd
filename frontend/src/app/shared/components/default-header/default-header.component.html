@@ -1,0 +1,25 @@
+<!--<c-header class="mb-4 d-print-none" position="sticky">-->
+<ng-container>
+  <c-container [fluid]="true" class="border-bottom px-4">
+    <button
+      [cSidebarToggle]="sidebarId()"
+      cHeaderToggler
+      class="btn"
+      toggle="visible"
+      style="margin-inline-start: -14px;"
+      aria-label="Toggle sidebar navigation"
+    >
+      <svg cIcon name="cilMenu" size="lg"></svg>
+    </button>
+    <c-header-nav class="d-none d-md-flex">
+      <c-nav-item>
+        <a cNavLink routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      </c-nav-item>
+    </c-header-nav>
+
+  </c-container>
+  <c-container [fluid]="true" class="px-4">
+    <c-breadcrumb-router />
+  </c-container>
+</ng-container>
+<!--</c-header>-->
