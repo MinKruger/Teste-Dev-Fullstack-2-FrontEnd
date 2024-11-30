@@ -17,7 +17,7 @@ export const routes: Routes = [
     path: 'clientes',
     children: [
       { path: '', component: ListClientesComponent }, // Listagem de Clientes
-      { path: 'criacao', component: FormClienteComponent },  // Substituir por componente de criação
+      // { path: 'criacao', component: FormClienteComponent },  // Substituir por componente de criação
     ],
   },
 
@@ -26,7 +26,7 @@ export const routes: Routes = [
     path: 'vendedores',
     children: [
       { path: '', component: ListVendedoresComponent }, // Listagem de Vendedores
-      { path: 'criacao', component: FormVendedorComponent },  // Substituir por componente de criação
+      // { path: 'criacao', component: FormVendedorComponent },  // Substituir por componente de criação
     ],
   },
 
@@ -35,7 +35,7 @@ export const routes: Routes = [
     path: 'pedidos',
     children: [
       { path: '', component: ListPedidosComponent }, // Listagem de Pedidos
-      { path: 'criacao', component: FormPedidoComponent },  // Substituir por componente de criação
+      // { path: 'criacao', component: FormPedidoComponent },  // Substituir por componente de criação
     ],
   },
 
