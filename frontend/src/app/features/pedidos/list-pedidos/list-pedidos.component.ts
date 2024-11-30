@@ -11,7 +11,7 @@ import {
   ColComponent,
   RowComponent,
 } from '@coreui/angular';
-import { Pedido } from '../../../core/models/pedido.model';
+import { Pedido, PedidoDetalhado } from '../../../core/models/pedido.model';
 import { PedidoRepository } from '../../../data/repositories/pedido.repository';
 import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
@@ -38,15 +38,16 @@ import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 })
 export class ListPedidosComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'id',
+    // 'id',
     'descricaoPedido',
     'valorTotal',
     'dataCriacao',
     'autorizado',
-    'clienteId',
-    'vendedorId',
+    'nomeFantasia',
+    'cnpj',
+    'nomeVendedor'
   ];
-  dataSource: MatTableDataSource<Pedido> = new MatTableDataSource<Pedido>();
+  dataSource: MatTableDataSource<PedidoDetalhado> = new MatTableDataSource<PedidoDetalhado>();
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
@@ -54,8 +55,8 @@ export class ListPedidosComponent implements AfterViewInit {
   constructor(private pedidoRepository: PedidoRepository) {}
 
   ngOnInit(): void {
-    this.pedidoRepository.obterTodos().subscribe({
-      next: (pedidos: Pedido[]) => {
+    this.pedidoRepository.obterPedidosDetalhados().subscribe({
+      next: (pedidos: PedidoDetalhado[]) => {
         this.dataSource.data = pedidos;
       },
       error: (err) => {

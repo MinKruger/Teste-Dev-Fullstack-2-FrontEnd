@@ -20,9 +20,33 @@
         <div class="mat-elevation-z8">
           <table mat-table [dataSource]="dataSource" matSort>
             <!-- Coluna: ID -->
-            <ng-container matColumnDef="id">
+            <!-- <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
               <td mat-cell *matCellDef="let pedido">{{ pedido.id }}</td>
+            </ng-container> -->
+
+            <!-- Coluna: Nome Vendedor -->
+            <ng-container matColumnDef="nomeVendedor">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Vendedor
+              </th>
+              <td mat-cell *matCellDef="let pedido">{{ pedido.nomeVendedor }}</td>
+            </ng-container>
+
+            <!-- Coluna: Nome Fantasia -->
+            <ng-container matColumnDef="nomeFantasia">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Cliente
+              </th>
+              <td mat-cell *matCellDef="let pedido">{{ pedido.nomeFantasia }}</td>
+            </ng-container>
+
+            <!-- Coluna: CNPJ -->
+            <ng-container matColumnDef="cnpj">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                CNPJ
+              </th>
+              <td mat-cell *matCellDef="let pedido">{{ pedido.cnpj }}</td>
             </ng-container>
 
             <!-- Coluna: Descrição do Pedido -->
@@ -61,22 +85,6 @@
               <td mat-cell *matCellDef="let pedido">
                 {{ pedido.autorizado ? "Sim" : "Não" }}
               </td>
-            </ng-container>
-
-            <!-- Coluna: Cliente ID -->
-            <ng-container matColumnDef="clienteId">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Cliente ID
-              </th>
-              <td mat-cell *matCellDef="let pedido">{{ pedido.clienteId }}</td>
-            </ng-container>
-
-            <!-- Coluna: Vendedor ID -->
-            <ng-container matColumnDef="vendedorId">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Vendedor ID
-              </th>
-              <td mat-cell *matCellDef="let pedido">{{ pedido.vendedorId }}</td>
             </ng-container>
 
             <!-- Header e Linhas -->

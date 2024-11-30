@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pedido } from '../../core/models/pedido.model';
+import { Pedido, PedidoDetalhado } from '../../core/models/pedido.model';
 import { PedidoService } from '../../core/services/pedido.service';
 
 @Injectable({
@@ -15,6 +15,10 @@ export class PedidoRepository {
 
   obterPorId(id: number): Observable<Pedido> {
     return this.pedidoService.obterPorId(id);
+  }
+
+  obterPedidosDetalhados(): Observable<PedidoDetalhado[]> {
+    return this.pedidoService.obterPedidosDetalhados();
   }
 
   criar(pedido: Pedido): Observable<Pedido> {

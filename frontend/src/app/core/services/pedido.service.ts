@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Pedido } from '../models/pedido.model';
+import { Pedido, PedidoDetalhado } from '../models/pedido.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -18,6 +18,10 @@ export class PedidoService {
 
   obterPorId(id: number): Observable<Pedido> {
     return this.http.get<Pedido>(`${this.API_URL}/${id}`);
+  }
+
+  obterPedidosDetalhados(): Observable<PedidoDetalhado[]> {
+    return this.http.get<PedidoDetalhado[]>(`${this.API_URL}/PedidosDetalhados`);
   }
 
   criar(pedido: Pedido): Observable<Pedido> {
