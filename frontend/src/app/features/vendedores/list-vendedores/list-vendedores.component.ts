@@ -13,6 +13,8 @@ import {
 } from '@coreui/angular';
 import { Vendedor } from '../../../core/models/vendedor.model';
 import { VendedorRepository } from '../../../data/repositories/vendedor.repository';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-list-vendedores',
@@ -28,6 +30,7 @@ import { VendedorRepository } from '../../../data/repositories/vendedor.reposito
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatButtonModule
   ],
   templateUrl: './list-vendedores.component.html',
   styleUrls: ['./list-vendedores.component.scss'],
@@ -45,7 +48,11 @@ export class ListVendedoresComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  constructor(private vendedorRepository: VendedorRepository) {}
+  constructor(
+    private vendedorRepository: VendedorRepository,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.vendedorRepository.obterTodos().subscribe({
@@ -74,5 +81,9 @@ export class ListVendedoresComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  redirectToCriacao(): void {
+    this.router.navigate(['criacao'], { relativeTo: this.route });
   }
 }

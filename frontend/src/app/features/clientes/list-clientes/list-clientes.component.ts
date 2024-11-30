@@ -4,9 +4,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CardBodyComponent, CardComponent, CardHeaderComponent, ColComponent, RowComponent } from '@coreui/angular';
+import {
+  CardBodyComponent,
+  CardComponent,
+  CardHeaderComponent,
+  ColComponent,
+  RowComponent,
+} from '@coreui/angular';
 import { Cliente } from '../../../core/models/cliente.model';
 import { ClienteRepository } from '../../../data/repositories/cliente.repository';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-list-clientes',
@@ -22,18 +30,29 @@ import { ClienteRepository } from '../../../data/repositories/cliente.repository
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatButtonModule
   ],
   templateUrl: './list-clientes.component.html',
   styleUrls: ['./list-clientes.component.scss'],
 })
 export class ListClientesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'razaoSocial', 'nomeFantasia', 'cnpj', 'ativo'];
+  displayedColumns: string[] = [
+    'id',
+    'razaoSocial',
+    'nomeFantasia',
+    'cnpj',
+    'ativo',
+  ];
   dataSource: MatTableDataSource<Cliente> = new MatTableDataSource<Cliente>();
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  constructor(private clienteRepository: ClienteRepository) {}
+  constructor(
+    private clienteRepository: ClienteRepository,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.clienteRepository.obterTodos().subscribe({
@@ -62,5 +81,9 @@ export class ListClientesComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  redirectToCriacao(): void {
+    this.router.navigate(['criacao'], { relativeTo: this.route });
   }
 }

@@ -15,6 +15,8 @@ import { Pedido, PedidoDetalhado } from '../../../core/models/pedido.model';
 import { PedidoRepository } from '../../../data/repositories/pedido.repository';
 import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-pedidos',
@@ -29,9 +31,10 @@ import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
     MatFormFieldModule,
     MatTableModule,
     MatSortModule,
+    MatButtonModule,
     MatPaginatorModule,
     CurrencyFormatPipe,
-    DateFormatPipe
+    DateFormatPipe,
   ],
   templateUrl: './list-pedidos.component.html',
   styleUrls: ['./list-pedidos.component.scss'],
@@ -47,12 +50,17 @@ export class ListPedidosComponent implements AfterViewInit {
     'dataCriacao',
     'autorizado',
   ];
-  dataSource: MatTableDataSource<PedidoDetalhado> = new MatTableDataSource<PedidoDetalhado>();
+  dataSource: MatTableDataSource<PedidoDetalhado> =
+    new MatTableDataSource<PedidoDetalhado>();
 
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  constructor(private pedidoRepository: PedidoRepository) {}
+  constructor(
+    private pedidoRepository: PedidoRepository,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.pedidoRepository.obterPedidosDetalhados().subscribe({
@@ -81,5 +89,9 @@ export class ListPedidosComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  redirectToCriacao(): void {
+    this.router.navigate(['criacao'], { relativeTo: this.route });
   }
 }

@@ -1,0 +1,21 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong> {{ isEditMode ? "Editar" : "Criar novo" }} Pedido</strong>
+      </c-card-header>
+      <c-card-body>
+        <div [formGroup]="pedidoForm">
+            <mat-form-field>
+              <mat-label>Clientes</mat-label>
+              <mat-select [formControl]="this.pedidoForm.get('clienteId')?.value" name="food">
+                @for (cliente of listaClientes; track cliente) {
+                  <mat-option [value]="cliente.id">{{cliente.razaoSocial}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>          
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
