@@ -39,13 +39,13 @@ import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 export class ListPedidosComponent implements AfterViewInit {
   displayedColumns: string[] = [
     // 'id',
+    'nomeVendedor',
+    'nomeFantasia',
+    'cnpj',
     'descricaoPedido',
     'valorTotal',
     'dataCriacao',
     'autorizado',
-    'nomeFantasia',
-    'cnpj',
-    'nomeVendedor'
   ];
   dataSource: MatTableDataSource<PedidoDetalhado> = new MatTableDataSource<PedidoDetalhado>();
 
