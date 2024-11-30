@@ -13,7 +13,7 @@ import {
   CardHeaderComponent,
   CardBodyComponent,
 } from '@coreui/angular';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -44,6 +44,7 @@ export class FormVendedorComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     private vendedorRepository: VendedorRepository
   ) {
     this.vendedorForm = this.fb.group({
@@ -127,5 +128,9 @@ export class FormVendedorComponent implements OnInit {
       apelido: '',
       ativo: true,
     });
+  }
+
+  redirect() {
+    this.location.back();
   }
 }

@@ -21,7 +21,7 @@ import {
   CardHeaderComponent,
   CardBodyComponent,
 } from '@coreui/angular';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -57,6 +57,7 @@ export class FormPedidoComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     private pedidoRepository: PedidoRepository,
     private clienteRepository: ClienteRepository,
     private vendedorRepository: VendedorRepository
@@ -197,5 +198,9 @@ export class FormPedidoComponent implements OnInit {
       clienteId: null,
       vendedorId: null,
     });
+  }
+
+  redirect() {
+    this.location.back();
   }
 }

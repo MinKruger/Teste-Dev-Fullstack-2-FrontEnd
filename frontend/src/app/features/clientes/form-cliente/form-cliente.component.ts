@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RowComponent, ColComponent, CardComponent, CardHeaderComponent, CardBodyComponent } from '@coreui/angular';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Cliente } from '../../../core/models/cliente.model';
 
@@ -37,6 +37,7 @@ export class FormClienteComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location,
     private clienteRepository: ClienteRepository
   ) {
     this.clienteForm = this.fb.group({
@@ -114,5 +115,9 @@ export class FormClienteComponent implements OnInit {
     this.clienteForm.reset({
       cnpj: '',
     });
+  }
+
+  redirect() {
+    this.location.back();
   }
 }
