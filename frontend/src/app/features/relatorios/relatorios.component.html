@@ -9,10 +9,7 @@
           <!-- Aba 1: Vendas no Período por Vendedor -->
           <mat-tab label="Vendas no Período por Vendedor">
             <div class="p-3">
-              <form
-                [formGroup]="vendasForm"
-                (ngSubmit)="obterVendasNoPeriodo()"
-              >
+              <form [formGroup]="vendasForm" (ngSubmit)="obterVendasNoPeriodo()">
                 <c-row>
                   <!-- Data Inicial -->
                   <c-col xs="12" sm="4" class="mb-3">
@@ -31,9 +28,7 @@
                       ></mat-datepicker-toggle>
                       <mat-datepicker #pickerInicio></mat-datepicker>
                       <mat-error
-                        *ngIf="
-                          vendasForm.get('dataInicial')?.hasError('required')
-                        "
+                        *ngIf="vendasForm.get('dataInicial')?.hasError('required')"
                       >
                         Data Inicial é obrigatória
                       </mat-error>
@@ -57,28 +52,31 @@
                       ></mat-datepicker-toggle>
                       <mat-datepicker #pickerFinal></mat-datepicker>
                       <mat-error
-                        *ngIf="
-                          vendasForm.get('dataFinal')?.hasError('required')
-                        "
+                        *ngIf="vendasForm.get('dataFinal')?.hasError('required')"
                       >
                         Data Final é obrigatória
                       </mat-error>
                     </mat-form-field>
                   </c-col>
 
-                  <!-- Vendedor (Opcional) -->
+                  <!-- Vendedor -->
                   <c-col xs="12" sm="4" class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                       <mat-label>Vendedor</mat-label>
-                      <mat-select formControlName="vendedorId">
-                        <mat-option [value]="null">Todos</mat-option>
+                      <mat-select formControlName="vendedorId" required>
+                        <mat-option [value]="null">Escolha um Vendedor</mat-option>
                         <mat-option
                           *ngFor="let vendedor of listaVendedores"
-                          [value]="vendedor.id"
+                          [value]="vendedor.codigoVendedor"
                         >
                           {{ vendedor.nome }}
                         </mat-option>
                       </mat-select>
+                      <mat-error
+                        *ngIf="vendasForm.get('vendedorId')?.hasError('required')"
+                      >
+                        Vendedor é obrigatório
+                      </mat-error>
                     </mat-form-field>
                   </c-col>
                 </c-row>
@@ -99,13 +97,76 @@
               </form>
 
               <!-- Resultado das Vendas -->
-              <c-row *ngIf="totalVendas > 0" class="mt-4">
-                <c-col xs="12">
-                  <mat-card class="p-3">
-                    <p>{{ totalVendas | currency }}</p>
-                  </mat-card>
-                </c-col>
-              </c-row>
+              <div *ngIf="dadosFiltrados && dadosFiltrados.length > 0" class="mt-4">
+                <c-row>
+                  <c-col xs="12">
+                    <mat-card class="p-3">
+                      <table
+                        mat-table
+                        [dataSource]="dadosFiltrados"
+                        class="mat-elevation-z8 w-100"
+                      >
+                        <!-- Coluna: Descrição do Pedido -->
+                        <ng-container matColumnDef="descricaoPedido">
+                          <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                          <td mat-cell *matCellDef="let element">
+                            {{ element.descricaoPedido }}
+                          </td>
+                        </ng-container>
+
+                        <!-- Coluna: Valor Total -->
+                        <ng-container matColumnDef="valorTotal">
+                          <th mat-header-cell *matHeaderCellDef>Valor Total</th>
+                          <td mat-cell *matCellDef="let element">
+                            {{ element.valorTotal | currencyFormat }}
+                          </td>
+                        </ng-container>
+
+                        <!-- Coluna: Data de Criação -->
+                        <ng-container matColumnDef="dataCriacao">
+                          <th mat-header-cell *matHeaderCellDef>Data de Criação</th>
+                          <td mat-cell *matCellDef="let element">
+                            {{ element.dataCriacao | date: 'dd/MM/yyyy' }}
+                          </td>
+                        </ng-container>
+
+                        <!-- Coluna: Observação -->
+                        <ng-container matColumnDef="observacao">
+                          <th mat-header-cell *matHeaderCellDef>Observação</th>
+                          <td mat-cell *matCellDef="let element">
+                            {{ element.observacao }}
+                          </td>
+                        </ng-container>
+
+                        <!-- Coluna: Autorizado -->
+                        <ng-container matColumnDef="autorizado">
+                          <th mat-header-cell *matHeaderCellDef>Autorizado</th>
+                          <td mat-cell *matCellDef="let element">
+                            <mat-icon color="primary" *ngIf="element.autorizado">
+                              check_circle
+                            </mat-icon>
+                            <mat-icon color="warn" *ngIf="!element.autorizado">
+                              cancel
+                            </mat-icon>
+                          </td>
+                        </ng-container>
+
+                        <!-- Definição do Header e Linhas -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                      </table>
+                    </mat-card>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <!-- Mensagem caso não haja dados -->
+              <div
+                *ngIf="dadosFiltrados && dadosFiltrados.length === 0"
+                class="mt-4 text-center"
+              >
+                <p>Nenhum dado encontrado para o período selecionado.</p>
+              </div>
             </div>
           </mat-tab>
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vendedor } from '../models/vendedor.model';
 import { environment } from '../../../environments/environment';
+import { PedidoPorVendedor } from '../models/pedido.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,10 @@ export class VendedorService {
 
   desativar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`);
+  }
+
+  obterResumoVendasPorVendedor(codigoVendedor: string): Observable<PedidoPorVendedor[]> {
+    return this.http.get<PedidoPorVendedor[]>(`${this.API_URL}/ObterTotalVendas/${codigoVendedor}`);
   }
 
   obterVendasNoPeriodo(

@@ -18,11 +18,16 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 import { Vendedor } from '../../core/models/vendedor.model';
 import { RelatorioRepository } from '../../data/repositories/relatorio.repository';
 import { VendedorRepository } from '../../data/repositories/vendedor.repository';
 import { CnpjFormatPipe } from '../../shared/pipes/cnpj-format.pipe';
 import { DateFormatDirective } from '../../shared/directives/date-format.directive';
+import { PedidoPorVendedor } from '../../core/models/pedido.model';
+import { CurrencyFormatPipe } from '../../shared/pipes/currency-format.pipe';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+
 
 @Component({
   selector: 'app-relatorio',
@@ -45,16 +50,27 @@ import { DateFormatDirective } from '../../shared/directives/date-format.directi
     ReactiveFormsModule,
     FormsModule,
     MatTabsModule,
+    MatIconModule,
+    CurrencyFormatPipe,
     CnpjFormatPipe,
-    DateFormatDirective
+    DateFormatDirective,
+    NgxMaskDirective
   ],
+  providers: [provideNgxMask()],
   templateUrl: './relatorios.component.html',
   styleUrls: ['./relatorios.component.scss'],
 })
 export class RelatoriosComponent implements OnInit {
   vendasForm: FormGroup;
   listaVendedores: Vendedor[] = [];
-  totalVendas: number = 0; // Variável para armazenar o total de vendas
+  dadosFiltrados: PedidoPorVendedor[] = [];
+  displayedColumns: string[] = [
+    'descricaoPedido',
+    'valorTotal',
+    'dataCriacao',
+    'observacao',
+    'autorizado',
+  ];
 
   melhorCliente: any;
 
@@ -66,7 +82,7 @@ export class RelatoriosComponent implements OnInit {
     this.vendasForm = this.fb.group({
       dataInicial: ['', Validators.required],
       dataFinal: ['', Validators.required],
-      vendedorId: [null],
+      vendedorId: [null, Validators.required],
     });
   }
 
@@ -80,7 +96,6 @@ export class RelatoriosComponent implements OnInit {
         this.listaVendedores = vendedores;
       },
       error: (err: any) => {
-        // Adicionado tipo 'any' para 'err'
         console.error('Erro ao carregar vendedores:', err);
       },
     });
@@ -95,15 +110,23 @@ export class RelatoriosComponent implements OnInit {
     const { dataInicial, dataFinal, vendedorId } = this.vendasForm.value;
 
     this.relatorioRepository
-      .obterVendasNoPeriodo(dataInicial, dataFinal)
+      .obterResumoVendasPorVendedor(vendedorId)
       .subscribe({
-        next: (dados: number) => {
-          // 'dados' é um número
-          this.totalVendas = dados; // Atribui o valor recebido à variável 'totalVendas'
+        next: (dados: PedidoPorVendedor[]) => {
+          const dataInicialDate = new Date(dataInicial);
+          const dataFinalDate = new Date(dataFinal);
+
+          const dadosFiltrados = dados.filter((pedido) => {
+            const dataCriacao = new Date(pedido.dataCriacao);
+            return (
+              dataCriacao >= dataInicialDate && dataCriacao <= dataFinalDate
+            );
+          });
+
+          this.dadosFiltrados = dadosFiltrados;
         },
         error: (err: any) => {
-          // Adicionado tipo 'any' para 'err'
-          console.error('Erro ao obter vendas no período:', err);
+          console.error('Erro ao obter resumo de vendas por vendedor:', err);
         },
       });
   }
@@ -114,7 +137,6 @@ export class RelatoriosComponent implements OnInit {
         this.melhorCliente = cliente;
       },
       error: (err: any) => {
-        // Adicionado tipo 'any' para 'err'
         console.error('Erro ao obter melhor cliente:', err);
       },
     });
