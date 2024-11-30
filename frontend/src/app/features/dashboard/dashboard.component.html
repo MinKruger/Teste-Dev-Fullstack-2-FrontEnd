@@ -1,0 +1,57 @@
+<!-- dashboard.component.html -->
+
+<c-row>
+    <!-- Resumo de Vendedores, Clientes e Pedidos -->
+    <c-col xs="12" sm="4" class="mb-4">
+      <c-card>
+        <c-card-body class="text-center">
+          <div class="h1">{{ totalVendedores }}</div>
+          <div>Vendedores</div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  
+    <c-col xs="12" sm="4" class="mb-4">
+      <c-card>
+        <c-card-body class="text-center">
+          <div class="h1">{{ totalClientes }}</div>
+          <div>Clientes</div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  
+    <c-col xs="12" sm="4" class="mb-4">
+      <c-card>
+        <c-card-body class="text-center">
+          <div class="h1">{{ totalPedidos }}</div>
+          <div>Pedidos</div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+  
+  <c-row>  
+    <!-- Gráfico: Clientes Ativos vs Inativos -->
+    <c-col xs="12" md="6" class="mb-4">
+      <c-card>
+        <c-card-header>
+          <strong>Clientes Ativos vs Inativos</strong>
+        </c-card-header>
+        <c-card-body>
+          <c-chart type="pie" [data]="clientesAtivosInativosData"></c-chart>
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+    <!-- Gráfico: Pedidos Aprovados vs Não Aprovados -->
+    <c-col xs="12" md="6" class="mb-4">
+      <c-card>
+        <c-card-header>
+          <strong>Pedidos Aprovados vs Não Aprovados</strong>
+        </c-card-header>
+        <c-card-body>
+          <c-chart type="doughnut" [data]="pedidosAprovadosData"></c-chart>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
