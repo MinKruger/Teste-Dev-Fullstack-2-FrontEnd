@@ -23,9 +23,9 @@ jobs:
       working-directory: frontend
       run: npm install
 
-    - name: Buildar aplicação Angular
+    - name: Buildar aplicação Angular em modo de desenvolvimento
       working-directory: frontend
-      run: npm run build -- --prod
+      run: npm run build
 
     - name: Fazer upload dos artefatos
       uses: actions/upload-artifact@v3
