@@ -4,6 +4,7 @@ import { ListVendedoresComponent } from './features/vendedores/list-vendedores/l
 import { ListClientesComponent } from './features/clientes/list-clientes/list-clientes.component';
 import { ListPedidosComponent } from './features/pedidos/list-pedidos/list-pedidos.component';
 import { RelatoriosComponent } from './features/relatorios/relatorios.component';
+import { FormPedidoComponent } from './features/pedidos/form-pedido/form-pedido.component';
 
 export const routes: Routes = [
   // Dashboard
@@ -13,7 +14,7 @@ export const routes: Routes = [
   {
     path: 'clientes',
     children: [
-      { path: 'listagem', component: ListClientesComponent }, // Listagem de Clientes
+      { path: '', component: ListClientesComponent }, // Listagem de Clientes
       { path: 'criacao', component: ListClientesComponent },  // Substituir por componente de criação
     ],
   },
@@ -22,7 +23,7 @@ export const routes: Routes = [
   {
     path: 'vendedores',
     children: [
-      { path: 'listagem', component: ListVendedoresComponent }, // Listagem de Vendedores
+      { path: '', component: ListVendedoresComponent }, // Listagem de Vendedores
       { path: 'criacao', component: ListVendedoresComponent },  // Substituir por componente de criação
     ],
   },
@@ -31,8 +32,8 @@ export const routes: Routes = [
   {
     path: 'pedidos',
     children: [
-      { path: 'listagem', component: ListPedidosComponent }, // Listagem de Pedidos
-      { path: 'criacao', component: ListPedidosComponent },  // Substituir por componente de criação
+      { path: '', component: ListPedidosComponent }, // Listagem de Pedidos
+      { path: 'criacao', component: FormPedidoComponent },  // Substituir por componente de criação
     ],
   },
 
