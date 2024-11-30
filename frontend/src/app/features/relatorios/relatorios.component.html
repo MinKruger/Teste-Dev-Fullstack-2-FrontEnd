@@ -1,0 +1,151 @@
+<c-row>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Relatórios</strong>
+      </c-card-header>
+      <c-card-body>
+        <mat-tab-group>
+          <!-- Aba 1: Vendas no Período por Vendedor -->
+          <mat-tab label="Vendas no Período por Vendedor">
+            <div class="p-3">
+              <form
+                [formGroup]="vendasForm"
+                (ngSubmit)="obterVendasNoPeriodo()"
+              >
+                <c-row>
+                  <!-- Data Inicial -->
+                  <c-col xs="12" sm="4" class="mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Data Inicial</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="pickerInicio"
+                        formControlName="dataInicial"
+                        required
+                        DateFormatDirective
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="pickerInicio"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #pickerInicio></mat-datepicker>
+                      <mat-error
+                        *ngIf="
+                          vendasForm.get('dataInicial')?.hasError('required')
+                        "
+                      >
+                        Data Inicial é obrigatória
+                      </mat-error>
+                    </mat-form-field>
+                  </c-col>
+
+                  <!-- Data Final -->
+                  <c-col xs="12" sm="4" class="mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Data Final</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="pickerFinal"
+                        formControlName="dataFinal"
+                        required
+                        DateFormatDirective
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="pickerFinal"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #pickerFinal></mat-datepicker>
+                      <mat-error
+                        *ngIf="
+                          vendasForm.get('dataFinal')?.hasError('required')
+                        "
+                      >
+                        Data Final é obrigatória
+                      </mat-error>
+                    </mat-form-field>
+                  </c-col>
+
+                  <!-- Vendedor (Opcional) -->
+                  <c-col xs="12" sm="4" class="mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Vendedor</mat-label>
+                      <mat-select formControlName="vendedorId">
+                        <mat-option [value]="null">Todos</mat-option>
+                        <mat-option
+                          *ngFor="let vendedor of listaVendedores"
+                          [value]="vendedor.id"
+                        >
+                          {{ vendedor.nome }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </c-col>
+                </c-row>
+
+                <!-- Botão de Pesquisa -->
+                <c-row class="mb-3">
+                  <c-col xs="12" class="d-flex justify-content-start">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      type="submit"
+                      [disabled]="vendasForm.invalid"
+                    >
+                      Gerar Relatório
+                    </button>
+                  </c-col>
+                </c-row>
+              </form>
+
+              <!-- Resultado das Vendas -->
+              <c-row *ngIf="totalVendas > 0" class="mt-4">
+                <c-col xs="12">
+                  <mat-card class="p-3">
+                    <p>{{ totalVendas | currency }}</p>
+                  </mat-card>
+                </c-col>
+              </c-row>
+            </div>
+          </mat-tab>
+
+          <!-- Aba 2: Melhor Cliente -->
+          <mat-tab label="Melhor Cliente">
+            <div class="p-3">
+              <c-row class="mb-3">
+                <c-col xs="12" md="6" class="d-flex justify-content-start">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="obterMelhorCliente()"
+                  >
+                    Gerar Relatório
+                  </button>
+                </c-col>
+              </c-row>
+
+              <c-row *ngIf="melhorCliente" class="mt-4">
+                <c-col xs="12" md="6">
+                  <mat-card class="p-3">
+                    <p>
+                      <strong>Razão Social:</strong>
+                      {{ melhorCliente.razaoSocial }}
+                    </p>
+                    <p>
+                      <strong>Nome Fantasia:</strong>
+                      {{ melhorCliente.nomeFantasia }}
+                    </p>
+                    <p>
+                      <strong>CNPJ:</strong>
+                      {{ melhorCliente.cnpj | cnpjFormat }}
+                    </p>
+                  </mat-card>
+                </c-col>
+              </c-row>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
