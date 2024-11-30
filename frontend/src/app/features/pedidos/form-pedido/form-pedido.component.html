@@ -2,19 +2,174 @@
   <c-col xs="12">
     <c-card class="mb-4">
       <c-card-header>
-        <strong> {{ isEditMode ? "Editar" : "Criar novo" }} Pedido</strong>
+        <strong>{{ isEditMode ? "Editar" : "Criar novo" }} Pedido</strong>
       </c-card-header>
       <c-card-body>
-        <div [formGroup]="pedidoForm">
-            <mat-form-field>
-              <mat-label>Clientes</mat-label>
-              <mat-select [formControl]="this.pedidoForm.get('clienteId')?.value" name="food">
-                @for (cliente of listaClientes; track cliente) {
-                  <mat-option [value]="cliente.id">{{cliente.razaoSocial}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>          
+        <form [formGroup]="pedidoForm" (ngSubmit)="salvar()">
+          <!-- Primeira Linha: Cliente, Vendedor, Data de Criação -->
+          <c-row>
+            <!-- Cliente -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Cliente</mat-label>
+                <mat-select formControlName="clienteId" required>
+                  <mat-option
+                    *ngFor="let cliente of listaClientes"
+                    [value]="cliente.id"
+                  >
+                    {{ cliente.razaoSocial }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="pedidoForm.get('clienteId')?.hasError('required')"
+                >
+                  Cliente é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+
+            <!-- Vendedor -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Vendedor</mat-label>
+                <mat-select formControlName="vendedorId" required>
+                  <mat-option
+                    *ngFor="let vendedor of listaVendedores"
+                    [value]="vendedor.id"
+                  >
+                    {{ vendedor.nome }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="pedidoForm.get('vendedorId')?.hasError('required')"
+                >
+                  Vendedor é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+
+            <!-- Data de Criação -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill">
+                <mat-label>Data de Criação</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="dataCriacao"
+                  required
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error
+                  *ngIf="pedidoForm.get('dataCriacao')?.hasError('required')"
+                >
+                  Data de criação é obrigatória
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+          </c-row>
+
+          <!-- Segunda Linha: Descrição do Pedido, Valor Total, Autorizado -->
+          <c-row>
+            <!-- Descrição do Pedido -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Descrição do Pedido</mat-label>
+                <textarea
+                  matInput
+                  formControlName="descricaoPedido"
+                  rows="3"
+                  required
+                ></textarea>
+                <mat-error
+                  *ngIf="
+                    pedidoForm.get('descricaoPedido')?.hasError('required')
+                  "
+                >
+                  Descrição do pedido é obrigatória
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    pedidoForm.get('descricaoPedido')?.hasError('maxlength')
+                  "
+                >
+                  A descrição não pode exceder 200 caracteres
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+
+            <!-- Valor Total -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Valor Total</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  formControlName="valorTotal"
+                  min="0"
+                  required
+                />
+                <mat-error
+                  *ngIf="pedidoForm.get('valorTotal')?.hasError('required')"
+                >
+                  Valor total é obrigatório
+                </mat-error>
+                <mat-error
+                  *ngIf="pedidoForm.get('valorTotal')?.hasError('min')"
+                >
+                  Valor total não pode ser negativo
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+
+            <!-- Autorizado -->
+            <c-col xs="12" sm="6" md="4" class="mb-3 d-flex align-items-center">
+              <mat-checkbox formControlName="autorizado"
+                >Autorizado</mat-checkbox
+              >
+            </c-col>
+          </c-row>
+
+          <!-- Terceira Linha: Observações -->
+          <c-row>
+            <!-- Observações -->
+            <c-col xs="12" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Observações</mat-label>
+                <textarea
+                  matInput
+                  formControlName="observacao"
+                  rows="3"
+                ></textarea>
+              </mat-form-field>
+            </c-col>
+          </c-row>
+
+          <!-- Botões de Ação -->
+          <c-row>
+            <c-col xs="12" class="d-flex justify-content-end">
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="pedidoForm.invalid"
+              >
+                {{ isEditMode ? "Salvar Alterações" : "Criar Pedido" }}
+              </button>
+              <button
+                mat-button
+                type="button"
+                (click)="resetarFormulario()"
+                class="ml-2"
+              >
+                Resetar
+              </button>
+            </c-col>
+          </c-row>
+        </form>
       </c-card-body>
     </c-card>
   </c-col>

@@ -1,0 +1,58 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>{{ isEditMode ? "Editar" : "Criar novo" }} Cliente</strong>
+      </c-card-header>
+      <c-card-body>
+        <form [formGroup]="clienteForm" (ngSubmit)="salvar()">
+          <!-- Campo CNPJ -->
+          <c-row>
+            <c-col xs="12" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>CNPJ</mat-label>
+                <input
+                  matInput
+                  formControlName="cnpj"
+                  required
+                  placeholder="00.000.000/0000-00"
+                  mask="00.000.000/0000-00"
+                />
+                <mat-error
+                  *ngIf="clienteForm.get('cnpj')?.hasError('required')"
+                >
+                  CNPJ é obrigatório
+                </mat-error>
+                <mat-error *ngIf="clienteForm.get('cnpj')?.hasError('pattern')">
+                  CNPJ inválido
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+          </c-row>
+
+          <!-- Botões de Ação -->
+          <c-row>
+            <c-col xs="12" class="d-flex justify-content-end">
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="clienteForm.invalid"
+              >
+                {{ isEditMode ? "Salvar Alterações" : "Criar Cliente" }}
+              </button>
+              <button
+                mat-button
+                type="button"
+                (click)="resetarFormulario()"
+                class="ml-2"
+              >
+                Resetar
+              </button>
+            </c-col>
+          </c-row>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

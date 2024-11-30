@@ -1,0 +1,80 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>{{ isEditMode ? "Editar" : "Criar novo" }} Vendedor</strong>
+      </c-card-header>
+      <c-card-body>
+        <form [formGroup]="vendedorForm" (ngSubmit)="salvar()">
+          <!-- Linha 1: Nome, Código Vendedor, Apelido -->
+          <c-row>
+            <!-- Nome -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="nome" required />
+                <mat-error
+                  *ngIf="vendedorForm.get('nome')?.hasError('required')"
+                >
+                  Nome é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+
+            <!-- Código Vendedor -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Código Vendedor</mat-label>
+                <input matInput formControlName="codigoVendedor" required />
+                <mat-error
+                  *ngIf="
+                    vendedorForm.get('codigoVendedor')?.hasError('required')
+                  "
+                >
+                  Código Vendedor é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </c-col>
+
+            <!-- Apelido -->
+            <c-col xs="12" sm="6" md="4" class="mb-3">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Apelido</mat-label>
+                <input matInput formControlName="apelido" />
+              </mat-form-field>
+            </c-col>
+          </c-row>
+
+          <!-- Linha 2: Ativo -->
+          <c-row>
+            <c-col xs="12" class="mb-3 d-flex align-items-center">
+              <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
+            </c-col>
+          </c-row>
+
+          <!-- Botões de Ação -->
+          <c-row>
+            <c-col xs="12" class="d-flex justify-content-end">
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="vendedorForm.invalid"
+              >
+                {{ isEditMode ? "Salvar Alterações" : "Criar Vendedor" }}
+              </button>
+              <button
+                mat-button
+                type="button"
+                (click)="resetarFormulario()"
+                class="ml-2"
+              >
+                Resetar
+              </button>
+            </c-col>
+          </c-row>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
