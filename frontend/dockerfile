@@ -1,32 +1,35 @@
-# Estágio de build
-FROM node:20 as build
+# Step 1: Build Stage
+FROM node:18 AS build
 
-# Definir o diretório de trabalho
+# Define o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar os arquivos de configuração do projeto
+# Copia os arquivos de dependências para o container
 COPY package*.json ./
 
-# Instalar as dependências
+# Instala as dependências
 RUN npm install
 
-# Copiar os arquivos do projeto
+# Copia o restante dos arquivos do projeto Angular
 COPY . .
 
-# Construir o aplicativo
-RUN npm run build -- --configuration production
+# Gera o build de produção do Angular
+RUN npm run build --prod
 
-# Estágio de produção
-FROM nginx:alpine
+# Step 2: Serve Stage
+FROM nginx:1.23
 
-# Copiar os arquivos de build para o diretório do Nginx
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+# Remove a configuração padrão do Nginx
+RUN rm -rf /usr/share/nginx/html/*
 
-# Copiar a configuração personalizada do Nginx (se necessário)
+# Copia os arquivos do build do Angular para o diretório do Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copia uma configuração customizada do Nginx, se necessário (opcional)
 # COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expor a porta 80
+# Expõe a porta usada pelo Nginx
 EXPOSE 80
 
-# Iniciar o Nginx
+# Inicia o Nginx
 CMD ["nginx", "-g", "daemon off;"]
